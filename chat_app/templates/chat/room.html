@@ -5,9 +5,17 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <h3>{{ user }}</h3>
+    <textarea id="chat-log" cols="100" rows="20">
+        {% for message in message %}
+        {{ message.user }} : {{ message.message }}
+        {% endfor %}
+    </textarea><br>
+
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
+
+
     {{ room_name|json_script:"room-name" }}
     {{ user|json_script:"user" }}
     <script>
