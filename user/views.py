@@ -1,10 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views import View
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from user.Serializer import RegistrationSerializer, LoginSerializer
+from user.models import UserModel
 
 
 class UserRegistration(APIView):
@@ -31,7 +35,7 @@ class UserLogin(APIView):
                             status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"message": e.args[0], "status": 400, "data": {}},
-                            status=status.HTTP_200_OK)
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 def login_user(request):
@@ -45,3 +49,19 @@ def login_user(request):
         return render(request, "login.html")
 
 
+def register_user(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        if UserModel.objects.filter(username=username).exists():
+            return Response({"message": "user exists", "status": 200, "data": {}},
+                            status=status.HTTP_200_OK)
+        else:
+            UserModel.objects.create_user(first_name=first_name, last_name=last_name, username=username,
+                                          password=password,
+                                          email=email)
+            return redirect('login')
+    return render(request, "registration.html")
