@@ -27,26 +27,14 @@
 
         }
         else {
-            window.location.pathname = '/chat/' +username + '.'+ groupName + '/';
+            let pathData=[username,groupName]
+            pathData.sort()
+            data1=pathData[0]
+            data2=pathData[1]
+            window.location.pathname = '/chat/' +data1 + '.' + data2 + '/';
         }
     }
-// <!--        document.querySelector('#room-name-input').focus();-->
-// <!--        document.querySelector('#room-name-input').onkeyup = function(e) {-->
-// <!--            if (e.keyCode === 13) {  // enter, return-->
-// <!--                document.querySelector('#room-name-submit').click();-->
-// <!--            }-->
-// <!--        };-->
 
-// <!--        document.querySelector('#room-name-submit').onclick = function(e) {-->
-// <!--        var roomName,friendName;-->
-// <!--           if( roomName = document.querySelector('#room-name-input').value){-->
-// <!--                window.location.pathname = '/chat/' + roomName + '/';-->
-// <!--            }-->
-// <!--            else if( friendName = document.querySelector('#friend-name-input').value){-->
-// <!--                window.location.pathname = '/friendName +user '/';-->
-// <!--            }-->
-
-//         };
     </script>
     </body>
 </html>
