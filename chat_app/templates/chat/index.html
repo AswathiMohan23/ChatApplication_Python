@@ -6,22 +6,47 @@
     <title>Chat Rooms</title>
 </head>
 <body>
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
+    Which chat room would you like to enter? type group name for group chat or
+        enter friend's name for individual chat<br>
 
+    <input type="radio" name="chat"  id="group" value="group"> group<br>
+    <input type="radio" name="chat"  id="individual" value="individual"> personal<br>
+    <input type="text" id="name" name="chat"><br>
+    <button type="button" onclick=" checkButton()"> Submit </button>
+
+    {{ user.username|json_script:"user" }}
     <script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
+        
+    function checkButton() {
+        const username = JSON.parse(document.getElementById('user').textContent);
 
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
+        var groupValue = document.getElementById("group")
+        var groupName =document.getElementById("name").value
+        if(groupValue.checked) {
+            window.location.pathname = '/chat/' + groupName + '/';
+
+        }
+        else {
+            window.location.pathname = '/chat/' +username + '.'+ groupName + '/';
+        }
+    }
+// <!--        document.querySelector('#room-name-input').focus();-->
+// <!--        document.querySelector('#room-name-input').onkeyup = function(e) {-->
+// <!--            if (e.keyCode === 13) {  // enter, return-->
+// <!--                document.querySelector('#room-name-submit').click();-->
+// <!--            }-->
+// <!--        };-->
+
+// <!--        document.querySelector('#room-name-submit').onclick = function(e) {-->
+// <!--        var roomName,friendName;-->
+// <!--           if( roomName = document.querySelector('#room-name-input').value){-->
+// <!--                window.location.pathname = '/chat/' + roomName + '/';-->
+// <!--            }-->
+// <!--            else if( friendName = document.querySelector('#friend-name-input').value){-->
+// <!--                window.location.pathname = '/friendName +user '/';-->
+// <!--            }-->
+
+//         };
     </script>
-</body>
+    </body>
 </html>

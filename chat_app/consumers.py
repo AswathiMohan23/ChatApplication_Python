@@ -7,9 +7,7 @@ from chat_app.models import UserChat
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    # def get_data_from_database(self):
-    #     return UserChat.objects.all()
-
+   
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "chat_%s" % self.room_name
@@ -21,9 +19,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-    @database_sync_to_async
-    def create_chat(self, message, user,group_name):
-        UserChat.objects.create(user=user, message=message,group_name=group_name)
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -35,7 +30,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json["message"]
         room_name=text_data_json["room_name"]
         user_name=text_data_json["username"]
-        await self.save_message(message,room_name,user_name)
+        # await self.save_message(message,room_name,user_name)
+        group=room_name.split(".")
+        group.sort()
+        print(group)
+        print(self.channel_layer)
 
         # Send message to room group
         await self.channel_layer.group_send(
@@ -55,3 +54,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def save_message(self,message,room_name,user_name):
         UserChat.objects.create(message=message,group_name=room_name,user=user_name)
+
+

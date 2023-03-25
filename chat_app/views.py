@@ -18,3 +18,5 @@ def room(request, room_name):
                                                   "user": request.user.username
                                                   })
     return redirect('login')
+
+

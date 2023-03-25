@@ -5,7 +5,7 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <h3>{{ user }}</h3>
+    <h3>Login user : {{ user }} </h3>
     <textarea id="chat-log" cols="100" rows="20">
         {% for message in message %}
         {{ message.user }} : {{ message.message }}
@@ -21,7 +21,6 @@
     <script>
         const username = JSON.parse(document.getElementById('user').textContent);
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -29,6 +28,7 @@
             + roomName
             + '/'
         );
+
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
